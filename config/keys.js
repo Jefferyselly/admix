@@ -1,7 +1,7 @@
-//dbPassword = 'mongodb+srv://YOUR_USERNAME_HERE:'+ encodeURIComponent('YOUR_PASSWORD_HERE') + '@CLUSTER_NAME_HERE.mongodb.net/test?retryWrites=true';
+dbPassword = 'mongodb+srv://gaza:NujH8T7Ew7jblh8o@cluster0.56dlt.mongodb.net/gaza?retryWrites=true&w=majority';
 
-dbPassword = 'mongodb://localhost:27017/forex';
-mongodb://localhost:27017/mlm
+// dbPassword = 'mongodb://localhost:27017/forex';
+// mongodb://localhost:27017/mlm
 
 module.exports = {
     mongoURI: dbPassword
