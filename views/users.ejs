@@ -1,0 +1,217 @@
+
+   <% include ./partials/sidebar %>
+   <!-- partial -->
+   <div class="container-fluid page-body-wrapper">
+     <!-- partial:partials/_navbar.html -->
+    <% include ./partials/navbar %>
+
+    <div class="col-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title"> Add a New User</h4>
+           
+              <p class="card-description"> Account info </p>
+              <div id="account_info" class="py-3"></div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Username</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" name="username" id="username"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Email</label>
+                    <div class="col-sm-9">
+                      <input type="email" class="form-control" name="email" id="email"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Referal username</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" name="refered_by" id="refered_by"/>
+                        </div>
+                      </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label"> Password </label>
+                        <div class="col-sm-9">
+                          <input type="password" class="form-control" name="password" id="password"/>
+                        </div>
+                      </div>
+                </div>
+              </div>
+              <!-- <div class="row">
+               
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Membership</label>
+                    <div class="col-sm-4">
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input type="radio" class="form-check-input" name="plan" id="membershipRadios1" value="" checked> Free </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-5">
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input type="radio" class="form-check-input" name="plan" id="membershipRadios2" value="option2"> Premium </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <!-- <p class="card-description"> Address </p> -->
+             
+             
+              <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Payment method</label>
+                        <div class="col-sm-9">
+                          <select class="form-control" name="payment_method" id="payment_method">
+                            <option>Paystack</option>
+                            <option>Bitcoin</option>
+                            <option>Direct Bank Transfer</option>
+                            
+                          </select>
+                        </div>
+                      </div>
+                </div>
+                <!-- <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Country</label>
+                    <div class="col-sm-9">
+                      <select class="form-control">
+                        <option>America</option>
+                        <option>Italy</option>
+                        <option>Russia</option>
+                        <option>Britain</option>
+                      </select>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+
+              <button class="btn btn-success" id="add_user" onclick="custom_async_request('#account_info','POST',
+              {username : document.querySelector('#username').value,
+               email : document.querySelector('#email').value,
+               password : document.querySelector('#password').value,
+               payment_method : document.querySelector('#payment_method').value,
+               refered_by :  document.querySelector('#refered_by').value
+            }
+              ,'/admin/add_user')"> Add +</button>
+            
+          </div>
+        </div>
+      </div>
+
+    <div class="row ">
+        <div class="col-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title"> Manage Users</h4>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>
+                        <div class="form-check form-check-muted m-0">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input">
+                          </label>
+                        </div>
+                      </th>
+                      <th> Username </th>
+                      <th> User ID </th>
+                      <th> Amount paid </th>
+                      
+                      <th> Payment Mode </th>
+                      <th> Registered</th>
+                      
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+                    <% users.forEach(function(user){ %>
+                    <tr>
+                      <td>
+                        <div class="form-check form-check-muted m-0">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input">
+                          </label>
+                        </div>
+                      </td>
+                      <td>
+                        
+                        <span class="pl-2"><%= user.username%></span>
+                      </td>
+                      <td> <%= user._id%> </td>
+                      <td> <%= user.payment_method%></td>
+                      <td> Dashboard </td>
+                      <td> <%= user.date.getDate()%>  / <%= user.date.getFullYear()%></td>
+                      
+                      <td>
+                        <%  if(user.level == 1){ %>
+                        <div class="badge badge-outline-success">Paid</div>
+                        <% }else{ %>
+                          <div class="badge badge-outline-danger">Regular</div>
+                          <% } %>
+                      </td>
+                    </tr>
+                    <%})%>
+                   
+                   <!-- PAGINATION -->
+<div class="shop-pagination">
+  <div class="pagination">
+ <% if (current_page == 1 && pages > 1) { %> 
+ <a 
+ href="/admin/users?page=<%= parseInt(current_page) + 1 %>" <span>
+   Next Page
+   <i class="mdi mdi-arrow-right"></i>
+ </span>
+ </a>
+ <% } else if (current_page < pages) { %>
+ <a 
+ href="/admin/users?page=<%= parseInt(current_page) - 1 %>"><span>
+   <i class="mdi mdi-arrow-left"></i>
+   Page <%= parseInt(current_page) - 1 %>
+ </span>
+ </a>
+ <a 
+ href="/admin/users?page=<%= parseInt(current_page) + 1 %>"><span>
+    Page <%= parseInt(current_page) + 1 %>
+  <i class="mdi mdi-arrow-right"></i>
+ </span>
+ </a>
+ <% } else if (current_page == pages && pages > 1) { %>
+ <a 
+ href="/admin/users?page=<%= parseInt(current_page) - 1 %>"><span>
+   <i class="mdi mdi-arrow-left"></i>Page 
+   <%=parseInt(current_page) - 1 %>
+ </span>
+ </a>
+ <% } %>
+ </div>
+                   
+                   
+                  </tbody>
+                
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="assets/custom/async_request.js"></script>
+    
+      
+      <% include ./partials/footer %>

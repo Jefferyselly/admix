@@ -1,0 +1,57 @@
+
+   <% include ./partials/sidebar %>
+   <!-- partial -->
+   <div class="container-fluid page-body-wrapper">
+     <!-- partial:partials/_navbar.html -->
+    <% include ./partials/navbar %>
+
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title"> Settings </h4>
+            <p class="card-description"> Global website Configuration </p>
+            <form class="forms-sample" method="GET" action="/admin/settings">
+              <div class="form-group">
+                <label for="exampleInputName1"> Website name </label>
+                <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="website" value="<%= set_docs.website %>">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail3">Whatsapp free group link</label>
+                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="free group link" name="basic_link" value="<%= set_docs.basic_link %>">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword4">Whatsapp Premium group link</label>
+                <input type="text" class="form-control" id="exampleInputPassword4" placeholder="premium group link" name="premium_link" value="<%= set_docs.premium_link%>">
+              </div>
+              <!-- <div class="form-group">
+                <label for="exampleSelectGender">Gender</label>
+                <select class="form-control" id="exampleSelectGender">
+                  <option>Male</option>
+                  <option>Female</option>
+                </select>
+              </div> -->
+              <!-- <div class="form-group">
+                <label>File upload</label>
+                <input type="file" name="img[]" class="file-upload-default">
+                <div class="input-group col-xs-12">
+                  <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                  <span class="input-group-append">
+                    <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                  </span>
+                </div>
+              </div> -->
+              <!-- <div class="form-group">
+                <label for="exampleInputCity1">City</label>
+                <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
+              </div> -->
+              <!-- <div class="form-group">
+                <label for="exampleTextarea1">Textarea</label> -->
+                <!-- <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
+              </div> -->
+              <button type="submit" class="btn btn-primary mr-2">Save</button>
+              <button class="btn btn-dark" type="reset">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <% include ./partials/footer %>
