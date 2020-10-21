@@ -104,6 +104,16 @@ router.get('/settings', (req,res) => {
 	
 })
 
+router.get('/upgrade_user', (req,res) => {
+	//upgrade users to a paid membership.
+	const doc_id = req.query.upg
+
+	User.findOneAndUpdate({_id : doc_id},{$set : {level : 1}}).then((user) => {
+		res.redirect('/admin')
+	})
+})
+
+
 router.post('/add_user',(req,res)=> {
    const body = _.pick(req.body, ['username','password','email','payment_method','refered_by']);
 

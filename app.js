@@ -5,6 +5,7 @@ const path = require('path');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -23,6 +24,22 @@ mongoose
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
+//Cookie Parser middleware
+app.use(cookieParser())
+
+//Middleware for checking referal Links
+const check_for_ref_link = (req,res,next) => {
+
+  //check if the referal tag is activated. store as cookie if true & new, if already exists, replace.
+  if(req.query.ref){
+    
+      res.cookie('ref',req.query.ref);
+      }
+
+      next();
+}
+
+app.use(check_for_ref_link)
 
 
 //EXPRESS STATIC FILES

@@ -201,7 +201,7 @@
                             
                             <td> <%= basic_user.date.toLocaleString() %> </td>
                             <td>
-                              <div class="badge badge-outline-primary" id="<%= basic_user._id %>"> Upgrade </div>
+                              <a href='/admin/upgrade_user?upg=<%= basic_user._id%>'><div class="badge badge-outline-primary" id="<%= basic_user._id %>" onclick=""> Upgrade </div></a>
                             </td>
                           </tr>
                         

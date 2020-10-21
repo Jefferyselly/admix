@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
 const PaymentSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true
-  },
-  user_id: {
+   user_id: {
     type: String,
     required: true
   },
@@ -18,6 +14,9 @@ const PaymentSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  onine_reference : {
+    type : String
   }
 });
 
