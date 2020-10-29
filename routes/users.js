@@ -1,10 +1,30 @@
 const express = require('express');
+const path = require('path');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const fetch = require('node-fetch');
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
+
+let transporter = nodemailer.createTransport(smtpTransport({    
+     service: 'gmail',
+     host: 'smtp.gmail.com', 
+     auth: {        
+          user: 'sellyjeffery12@gmail.com',        
+          pass: 'developer07'    
+     },
+      tls: {
+          rejectUnauthorized: false
+      }
+}));
+
 
 const _ = require('lodash');
+
+
+//serve router static files
+router.use(express.static(path.join(__dirname, '../public')));
 
 //Import the paystack service module.
 const initializeTransaction = require('../config/paystack'); 
@@ -15,6 +35,25 @@ const Referal = require('../models/Referal');
 
 
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth')
+
+router.get('/email', (req,res) => {
+  //options
+     const mailOptions = {
+          from: 'sellyjeffery12@gmail.com',
+          to: 'jeffsellydeveloper@gmail.com',                   // from req.body.to
+          subject: 'testing gaza mail',         //from req.body.subject
+          html: 'cjsancjasn'             //from req.body.message
+      };
+
+           //delivery
+     transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+              console.log(error);  
+          } else {     
+              console.log('Email sent: ' + info.response);  
+          }   
+     });
+})
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
@@ -152,6 +191,32 @@ router.get('/paystack/verify', ensureAuthenticated, (req,res) => {
 
                 })
     })
+})
+
+//find users route.
+router.get('/find', (req,res) => {
+  const find_user = req.query.find_user;
+  if(find_user){
+    //find an email matching the one specified in 'find_user'
+
+    User.findOne({email : find_user}).then((user) => {
+      if(user == null){ 
+        user = {date : 000}
+        res.render('search.ejs', {
+          user : user || {}
+        })
+      }
+        else{
+          //check if user is upgraded or not to display in frontend button.
+          if(user.level == 0) {user.button_text = 'Upgrade'; user.button_class = 'btn-outline-primary'; }else{
+            user.button_text = 'Approved'; user.button_class = 'btn-outline-success';
+          }
+          res.render('search.ejs',{
+            user 
+          })
+        }
+    })
+  }
 })
 
 

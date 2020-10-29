@@ -15,15 +15,23 @@ router.use(express.static(path.join(__dirname, '../public')));
 
 router.get('/', (req,res) => {
 
-	User.find().limit(4).sort({date : 'desc'}).then((users) => {
+	const res_per_page = 5;
+	const page = req.query.page || 1;
+
+	User.find().skip((res_per_page * page) - res_per_page).limit(res_per_page).sort({date : 'desc'}).then((users) => {
 		//Getting data for recently registered details.
 		User.find().countDocuments().then((number_of_users) => {
 				User.find({level : 0}).then((basic_users) => {
-					res.render('index.ejs',{
+					User.find({level : 0}).countDocuments().then((total) => {
+						res.render('index.ejs',{
 			users : users || {},
 			number_of_users : number_of_users || 0,
-			basic_users : basic_users|| {}
+			basic_users : basic_users|| {},
+			current_page : page,
+			pages: Math.ceil(total / res_per_page)
 				})
+					})
+					
 			})
 				
 		})
