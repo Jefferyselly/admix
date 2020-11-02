@@ -56,17 +56,17 @@ router.get('/email', (req,res) => {
 })
 
 // Login Page
-router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
+router.get('/login', forwardAuthenticated, (req, res) => res.render('signin'));
 
 // Register Page
-router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
+router.get('/register', forwardAuthenticated, (req, res) => res.render('signup'));
 
 // Register
 router.post('/register', (req, res) => {
-  const { username, email, password, password2 } = req.body;
+  const {full_name, username, email, password, password2 } = req.body;
   let errors = [];
 
-  if (!username || !email || !password || !password2) {
+  if (!username || !email || !password || !password2 || !full_name) {
     errors.push({ msg: 'Please enter all fields' });
   }
 
@@ -79,23 +79,17 @@ router.post('/register', (req, res) => {
   }
 
   if (errors.length > 0) {
-    res.render('register', {
-      errors,
-      username,
-      email,
-      password,
-      password2
+    res.send({
+      message : 'An error occured, please check your inputs.',
+    code : 0    
     });
   } else {
     User.findOne({ email: email }).then(user => {
       if (user) {
         errors.push({ msg: 'Email already exists' });
-        res.render('register', {
-          errors,
-          username,
-          email,
-          password,
-          password2
+        res.send({
+          message : 'email already esists',
+          code : 0
         });
       } else {
         const newUser = new User({
@@ -125,11 +119,9 @@ router.post('/register', (req, res) => {
 
                 refl_doc.save();
 
-                req.flash(
-                  'success_msg',
-                  'You are now registered and can log in'
-                );
-                res.redirect('/users/login');
+                
+    
+                res.send({redirect : '/users/login'});
               })
               .catch(err => console.log(err));
           });

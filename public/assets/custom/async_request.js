@@ -20,7 +20,7 @@ function custom_async_request(res_id, req_type, data, url, custom_func = false){
     })
     .catch(error => {
         // handle the error
-        console.log('not working');
+        console.log(error);
     });
 
 }
@@ -31,7 +31,10 @@ function core_placement(res_id,data){
    if(data.code == 0){
     holder.setAttribute('class','btn btn-danger mb-2')
    }else{
-    holder.setAttribute('class','btn btn-success mb-2')
+    if(data.redirect){
+      window.location.href = data.redirect;
+    }else{
+    holder.setAttribute('class','btn btn-success mb-2')}
    }
    
    //send data inside the area
